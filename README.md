@@ -16,15 +16,21 @@ yarn
 
 ```bash
 yarn new
+
+# next will get Command line interaction
 ```
 
 - local-template
 
-noop
+noop (auto copy file)
+
+please add some template like (`/root/template/base/package.json`) before new subProject
 
 - official-template
   - umi `yarn workspace <subProject> run create-umi`
   - other @todo
+
+when create subProject, ensure exist "name", "version" in package.json
 
 ## start subProject
 
