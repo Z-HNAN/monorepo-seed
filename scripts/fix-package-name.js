@@ -1,5 +1,7 @@
 const fse = require('fs-extra');
 const path = require('path');
+const chalk = require('chalk');
+
 const { getAllAppsDir } = require('./utils');
 
 ;(async () => {
@@ -10,11 +12,16 @@ const { getAllAppsDir } = require('./utils');
   appsDir.forEach(dir => {
     const pkg = fse.readJSONSync(path.join(dir, './package.json'), { encoding: 'utf-8' })
 
-    pkg.name = path.basename(dir)
-    pkg.version = pkg.version ? pkg.version : '1.0.0'
-    pkg.private = true
+    if (!pkg.name || !pkg.version) {
+      pkg.name = path.basename(dir)
+      pkg.version = pkg.version ? pkg.version : '1.0.0'
+      pkg.private = true
 
-    fse.writeJSONSync(path.join(dir, './package.json'), pkg, { encoding: 'utf-8', spaces: 2 })
+      fse.writeJSONSync(path.join(dir, './package.json'), pkg, { encoding: 'utf-8', spaces: 2 })
+      console.log(chalk.green(`fix ${pkg.name}`));
+    }
+
+
   })
 
 })()
