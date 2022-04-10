@@ -7,6 +7,7 @@
     "packages/*"
   ],
   "devDependencies": {
+    "create-umi": "^0.27.0",
     "umi": "^3.3.12"
   }
 }
