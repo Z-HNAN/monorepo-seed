@@ -60,6 +60,12 @@ yarn build
 
 ## deploy
 
+```bash
+yarn deploy
+
+# next will get Command line interaction
+```
+
 only deploy `dist/` static page, maybe use `github pages` or others.
 
 external some library, like react,react-dom. CDN is good idea.(jsdeliver, bootcdn, ...)
