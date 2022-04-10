@@ -2,12 +2,18 @@
   "name": "gipsy",
   "version": "1.0.0",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "new": "node ./scripts/new.js"
+  },
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
+    "chalk": "^4.1.1",
+    "create-react-app": "^5.0.0",
     "create-umi": "^0.27.0",
+    "fs-extra": "^10.0.1",
+    "inquirer": "^8.2.2",
     "umi": "^3.3.12"
   }
 }
