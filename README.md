@@ -3,7 +3,7 @@ simple monorepo
 
 use yarn workspace to manager project, [https://classic.yarnpkg.com/en/docs/workspaces/](https://classic.yarnpkg.com/en/docs/workspaces/)
 
-support subProject 
+support official subProject 
 
 - (react typescript) umi project [https://v2.umijs.org/](https://v2.umijs.org/)
 
@@ -23,9 +23,8 @@ yarn new
 noop
 
 - official-template
-
-  - cra `yarn workspace <subProject> run create-react-app ./ --template typescript`
   - umi `yarn workspace <subProject> run create-umi`
+  - other @todo
 
 ## start subProject
 

@@ -4,7 +4,7 @@ const { execSync } = require('child_process');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 
-const { getAllAppsName } = require('./utils');
+const { getAllAppsName, generateTime } = require('./utils');
 
 ; (async () => {
   const appsName = getAllAppsName()
@@ -31,14 +31,43 @@ const { getAllAppsName } = require('./utils');
   console.log(chalk.green('[2/3: ADD DIST]'));
   fse.ensureDir(distSubProject)
   buildDirOrder.some(d => {
-    if(fse.statSync(d).isDirectory()) {
-      fse.copySync(d, distSubProject)
+    if(fse.existsSync(d)) {
+      fse.copySync(d, distSubProject, { overwrite: true })
       return true;
     }
     return false;
   })
   // diff
+  execSync('git add .', { stdio: 'pipe' })
+  const diffStr = execSync('git diff master --name-only -- ./dist', { stdio: 'pipe', encoding: 'utf-8' })
+  const diffFiles = diffStr.split('\n').filter(f => Boolean(f))
+  console.log('current change', diffFiles);
 
+  const verify = diffFiles.every(f => f.substring(5).split('/')[0] === subProjectName);
+  if (!verify) {
+    console.log(chalk.red('deploy be block, check "./dist" some other files change'));
+    diffFiles.forEach(f => {
+      if (f.substring(5).split('/')[0] !== subProjectName) {
+        console.log(f);
+      }
+    });
+    process.exit(0)
+  }
+
+  const { continueDeploy } = await inquirer.prompt({
+    type: 'confirm',
+    name: 'continueDeploy',
+    message: `verify success current only change ./dist/${subProjectName}`
+  })
+  if (!continueDeploy) {
+    execSync('git reset HEAD', { stdio: 'pipe'})
+    return
+  }
+  
   console.log(chalk.green('[3/3: DEPLOY]'));
-  // todo
+  execSync(`git commit -m "feat: deploy ${subProjectName}"`, { stdio: 'pipe' })
+  const date = new Date();
+  const tagName = `deploy-${generateTime()}`
+  execSync(`git tag ${tagName}`, { stdio: 'pipe' })
+  execSync(`git push origin ${tagName}`, { stdio: 'pipe' })
 })()

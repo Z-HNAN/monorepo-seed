@@ -76,17 +76,17 @@ const { getAllAppsDir } = require('./utils')
     const subProjectRoot = path.resolve(__dirname, `../packages/${subProjectName}`);
     fse.ensureDirSync(subProjectRoot)
 
-    // will confilce package.json
-    // execSync('yarn init -y', { cwd: subProjectRoot, stdio: 'pipe' })
-    // const pkgDir = path.resolve(subProjectRoot, './package.json')
-    // const pkg = fse.readJSONSync(pkgDir, { encoding: 'utf-8'})
-    // pkg.name = subProjectName
-    // pkg.version = pkg.version ? pkg.version : '1.0.0'
-    // pkg.private = true
-    // fse.writeJSONSync(pkgDir, pkg, { encoding: 'utf-8', spaces: 2 })
+    // in create-react-app will confilce package.json
+    execSync('yarn init -y', { cwd: subProjectRoot, stdio: 'pipe' })
+    const pkgDir = path.resolve(subProjectRoot, './package.json')
+    const pkg = fse.readJSONSync(pkgDir, { encoding: 'utf-8'})
+    pkg.name = subProjectName
+    pkg.version = pkg.version ? pkg.version : '1.0.0'
+    pkg.private = true
+    fse.writeJSONSync(pkgDir, pkg, { encoding: 'utf-8', spaces: 2 })
 
     console.log('please use create-cli to manually create ensure exist "name", "version" in package.json');
-    console.log(chalk.cyan(`yarn workspace ${subProjectName} run create-react-app ./ d--template typescript`));
+    // console.log(chalk.cyan(`yarn workspace ${subProjectName} run create-react-app ./ d--template typescript`));
     console.log(chalk.cyan(`yarn workspace ${subProjectName} run create-umi`));
   }
 
