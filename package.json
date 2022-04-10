@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "new": "node ./scripts/new.js"
+    "new": "node ./scripts/new.js",
+    "deploy": "node ./scripts/deploy.js"
   },
   "workspaces": [
     "packages/*"
