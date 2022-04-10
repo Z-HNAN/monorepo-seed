@@ -10,6 +10,7 @@ const { getAllAppsName, generateTime } = require('./utils');
   const appsName = getAllAppsName()
   if (appsName.length === 0) {
     console.log(chalk.yellow('no project can be build. (please add "name", "version" in subProject \'s package.json)'));
+    console.log(chalk.yellow('autofix please in root exec "yarn fix-package-name"'));
     process.exit(0)
   }
 

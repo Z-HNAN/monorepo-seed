@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "new": "node ./scripts/new.js",
-    "deploy": "node ./scripts/deploy.js"
+    "deploy": "node ./scripts/deploy.js",
+    "fix-package-name": "node ./scripts/fix-package-name.js"
   },
   "workspaces": [
     "packages/*"
