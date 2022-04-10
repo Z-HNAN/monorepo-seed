@@ -2,7 +2,11 @@
   "name": "gipsy",
   "version": "1.0.0",
   "private": true,
+  "scripts": {},
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "umi": "^3.3.12"
+  }
 }
