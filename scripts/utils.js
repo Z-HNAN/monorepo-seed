@@ -40,7 +40,7 @@ function getAllAppsName() {
   return appsDir.map(appDir => {
     const pkg = fse.readJSONSync(path.resolve(appDir, './package.json'), { encoding: 'utf-8' })
     return pkg.name
-  })
+  }).filter(d => Boolean(d))
 }
 
 function pad2(n) { return n < 10 ? '0' + n : n }

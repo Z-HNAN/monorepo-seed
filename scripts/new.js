@@ -34,7 +34,7 @@ const { getAllAppsDir } = require('./utils')
     type: 'list',
     name: 'generatorType',
     message: 'select generator type',
-    choices: [{ name: 'copy local template', value: 'local' }, { name: 'use offical create cli(like create-react-app, create-umi)', value: 'offical' }],
+    choices: [{ name: 'copy local template', value: 'local' }, { name: 'use offical create cli(like create-umi)', value: 'offical' }],
   })
 
 
