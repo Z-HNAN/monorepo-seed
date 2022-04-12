@@ -1,10 +1,10 @@
 const path = require('path')
 const fse = require('fs-extra');
+const childProcess = require('child_process');
 
 function isAppRoot(dir) {
   return fse.existsSync(path.resolve(dir, './package.json'), fse.constants.R_OK)
 }
-
 
 
 function getAllAppsDir() {
@@ -50,8 +50,13 @@ function generateTime() {
   return date.getFullYear().toString() + pad2(date.getMonth() + 1) + pad2(date.getDate()) + pad2(date.getHours()) + pad2(date.getMinutes()) + pad2(date.getSeconds());
 }
 
+function getCurrentGitBranch() {
+  return childProcess.execSync('git rev-parse --abbrev-ref HEAD').toString().replace(/\s+/, '');
+}
+
 module.exports = {
   getAllAppsDir,
   getAllAppsName,
-  generateTime
+  generateTime,
+  getCurrentGitBranch
 }

@@ -4,7 +4,7 @@ const chalk = require('chalk');
 
 const { getAllAppsDir } = require('./utils');
 
-;(async () => {
+; (async () => {
   console.log('will fix all subProject modify package.json to add "name", "version", "private"');
 
   const appsDir = getAllAppsDir();

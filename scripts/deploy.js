@@ -4,7 +4,7 @@ const { execSync } = require('child_process');
 const inquirer = require('inquirer');
 const chalk = require('chalk');
 
-const { getAllAppsName, generateTime } = require('./utils');
+const { getAllAppsName, generateTime, getCurrentGitBranch } = require('./utils');
 
 ; (async () => {
   const appsName = getAllAppsName()
@@ -23,16 +23,18 @@ const { getAllAppsName, generateTime } = require('./utils');
   const subProjectRoot = path.resolve(__dirname, '../packages/', subProjectName);
 
   const buildDirOrder = ['build', 'dist', 'output'].map(d => path.join(subProjectRoot, d))
-  const distSubProject = path.resolve(__dirname, '../dist', subProjectName)
+  const distProject = path.resolve(__dirname, '../dist');
+  const distSubProject = path.resolve(distProject, subProjectName)
 
   console.log(chalk.green('[1/3: BUILD]'));
   buildDirOrder.map(d => fse.removeSync(d))
   execSync(`yarn workspace ${subProjectName} build`, { stdio: 'inherit' })
 
   console.log(chalk.green('[2/3: ADD DIST]'));
+  fse.removeSync(distSubProject)
   fse.ensureDir(distSubProject)
   buildDirOrder.some(d => {
-    if(fse.existsSync(d)) {
+    if (fse.existsSync(d)) {
       fse.copySync(d, distSubProject, { overwrite: true })
       return true;
     }
@@ -55,20 +57,30 @@ const { getAllAppsName, generateTime } = require('./utils');
     process.exit(0)
   }
 
-  const { continueDeploy } = await inquirer.prompt({
-    type: 'confirm',
-    name: 'continueDeploy',
-    message: `verify success current only change ./dist/${subProjectName}`
-  })
-  if (!continueDeploy) {
-    execSync('git reset HEAD', { stdio: 'pipe'})
-    return
+  if (getCurrentGitBranch() !== 'master') {
+    execSync('git reset HEAD', { stdio: 'pipe' })
+
+    // other branch preview
+    console.log(chalk.green('[3/3: PREVIEW]'));
+    execSync(`yarn http-server ${distProject} --cors -p 80`, { stdio: 'inherit', killSignal: 'SIGINT' }); // when close <ctrl+c> + <enter> + <ctrl+c>
+  } else {
+    const { continueDeploy } = await inquirer.prompt({
+      type: 'confirm',
+      name: 'continueDeploy',
+      message: `verify success current only change ./dist/${subProjectName}`
+    })
+    if (!continueDeploy) {
+      execSync('git reset HEAD', { stdio: 'pipe' })
+      return
+    }
+
+    // master to deploy
+    console.log(chalk.green('[3/3: DEPLOY]'));
+    execSync(`git commit -m "feat: deploy ${subProjectName}"`, { stdio: 'pipe' })
+    const date = new Date();
+    const tagName = `deploy-${generateTime()}`
+    execSync(`git tag ${tagName}`, { stdio: 'pipe' })
+    execSync(`git push origin ${tagName}`, { stdio: 'pipe' })
   }
-  
-  console.log(chalk.green('[3/3: DEPLOY]'));
-  execSync(`git commit -m "feat: deploy ${subProjectName}"`, { stdio: 'pipe' })
-  const date = new Date();
-  const tagName = `deploy-${generateTime()}`
-  execSync(`git tag ${tagName}`, { stdio: 'pipe' })
-  execSync(`git push origin ${tagName}`, { stdio: 'pipe' })
-})()
+
+})();

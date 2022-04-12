@@ -64,6 +64,9 @@ yarn build
 yarn deploy
 
 # next will get Command line interaction
+
+# when in master will git commit/push and git tag
+# when in other branch will open http-server to preview
 ```
 
 only deploy `dist/` static page, maybe use `github pages` or others.

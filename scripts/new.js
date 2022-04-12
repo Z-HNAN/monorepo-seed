@@ -79,7 +79,7 @@ const { getAllAppsDir } = require('./utils')
     // in create-react-app will confilce package.json
     execSync('yarn init -y', { cwd: subProjectRoot, stdio: 'pipe' })
     const pkgDir = path.resolve(subProjectRoot, './package.json')
-    const pkg = fse.readJSONSync(pkgDir, { encoding: 'utf-8'})
+    const pkg = fse.readJSONSync(pkgDir, { encoding: 'utf-8' })
     pkg.name = subProjectName
     pkg.version = pkg.version ? pkg.version : '1.0.0'
     pkg.private = true
