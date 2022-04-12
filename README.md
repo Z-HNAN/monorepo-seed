@@ -6,6 +6,7 @@ use yarn workspace to manager project, [https://classic.yarnpkg.com/en/docs/work
 support official subProject 
 
 - (react typescript) umi project [https://v2.umijs.org/](https://v2.umijs.org/)
+- (react typescript) alita project [https://alitajs.com/](https://alitajs.com/)
 
 ## install
 
@@ -28,6 +29,7 @@ please add some template like (`/root/template/base/package.json`) before new su
 
 - official-template
   - umi `yarn workspace <subProject> run create-umi`
+  - alita `yarn workspace <subProject> run create-alita`
   - other @todo
 
 when create subProject, ensure exist "name", "version" in package.json

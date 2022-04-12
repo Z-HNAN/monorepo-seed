@@ -87,7 +87,7 @@ const { getAllAppsDir } = require('./utils')
 
     console.log('please use create-cli to manually create ensure exist "name", "version" in package.json');
     // console.log(chalk.cyan(`yarn workspace ${subProjectName} run create-react-app ./ d--template typescript`));
-    console.log(chalk.cyan(`yarn workspace ${subProjectName} run create-umi`));
+    console.log(chalk.cyan(`yarn workspace ${subProjectName} run create-xxx`));
   }
 
   console.log(chalk.green('SUCCESS'));
